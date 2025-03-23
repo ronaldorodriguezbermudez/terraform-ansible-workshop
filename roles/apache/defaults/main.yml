@@ -1,0 +1,12 @@
+apache_package_name: "apache2"
+
+apache_install_command:
+  ubuntu: "apt-get install -y {{ apache_package_name }}"
+  debian: "apt-get install -y {{ apache_package_name }}"
+  arch: "pacman -S --noconfirm {{ apache_package_name }}"
+
+apache_service_name: "apache2"
+
+# Variables for the Apache configuration
+apache_server_name: "localhost"
+apache_document_root: "/var/www/html"

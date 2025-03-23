@@ -1,0 +1,22 @@
+---
+- name: Install Apache on Ubuntu, Debian, Arch
+  ansible.builtin.command: "{{ apache_install_command[ansible_distribution | lower] }}"
+  when: ansible_distribution in ['Ubuntu', 'Debian', 'Arch']
+
+- name: Deploy Apache configuration template
+  ansible.builtin.template:
+    src: apache.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable Apache site
+  ansible.builtin.command: a2ensite 000-default.conf
+  when: ansible_distribution in ['Ubuntu', 'Debian']
+
+- name: Start and enable Apache service
+  ansible.builtin.service:
+    name: "{{ apache_service_name }}"
+    state: started
+    enabled: true
